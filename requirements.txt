@@ -1,0 +1,4 @@
+flask
+numpy
+pywebview
+scikit-learn==1.6.1

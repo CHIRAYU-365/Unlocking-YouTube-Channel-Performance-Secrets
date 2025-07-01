@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📊 YouTube Revenue Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #1f1c2c, #928dab);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+    .dashboard-container {
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+    }
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+    }
+    .button-group {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+    }
+    .button-group a, .button-group form button {
+      background: #1abc9c;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .button-group a:hover, .button-group form button:hover {
+      background: #159f86;
+    }
+  </style>
+</head>
+<body>
+  <h1>📈 YouTube Revenue Prediction Dashboard</h1>
+  <div class="dashboard-container">
+    <canvas id="revenueChart"></canvas>
+  </div>
+
+  <div class="button-group">
+    <a href="/">🔙 Back to Predictor</a>
+    <form method="POST" action="/clear" onsubmit="return confirm('Are you sure you want to clear all predictions?');">
+      <button type="submit">🗑️ Clear Predictions</button>
+    </form>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{ labels | tojson }},
+        datasets: [
+          {
+            label: 'Estimated Revenue ($)',
+            data: {{ predictions | tojson }},
+            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+            borderRadius: 6,
+            barThickness: 30
+          },
+          {
+            label: 'Views',
+            data: {{ views | tojson }},
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderRadius: 6,
+            barThickness: 30
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white',
+              font: {
+                size: 14,
+                weight: 'bold'
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: '#333',
+            titleColor: '#fff',
+            bodyColor: '#fff'
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: 'white' },
+            grid: { color: 'rgba(255,255,255,0.1)' }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { color: 'white' },
+            grid: { color: 'rgba(255,255,255,0.1)' }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

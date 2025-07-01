@@ -1,0 +1,159 @@
+
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Revenue Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            color: #fff;
+        }
+        .main-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            gap: 40px;
+            padding: 30px;
+        }
+        .form-container, .output-container {
+            flex: 1;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        form label {
+            margin-top: 10px;
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            color: #e0e0e0;
+        }
+        form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+        input[type="number"]::placeholder {
+            color: #ccc;
+        }
+        form input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        form input[type="submit"]:hover {
+            opacity: 0.9;
+        }
+        .result-box {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dashboard-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .dashboard-button a {
+            background-color: #1abc9c;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        .dashboard-button a:hover {
+            background-color: #159f86;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="form-container">
+            <h1>🔮 YouTube Revenue Predictor</h1>
+            <form method="post" action="/predict">
+                <label for="views">Views:</label>
+                <input type="number" name="views" placeholder="e.g., 100000" required>
+
+                <label for="subscribers">Subscribers:</label>
+                <input type="number" name="subscribers" placeholder="e.g., 5000" required>
+
+                <label for="likes">Likes:</label>
+                <input type="number" name="likes" placeholder="e.g., 3000" required>
+
+                <label for="shares">Shares:</label>
+                <input type="number" name="shares" placeholder="e.g., 150" required>
+
+                <label for="comments">Comments:</label>
+                <input type="number" name="comments" placeholder="e.g., 200" required>
+
+                <label for="engagement_rate">Engagement Rate (%):</label>
+                <input type="number" step="any" name="engagement_rate" placeholder="e.g., 8.5" required>
+
+                <input type="submit" value="🎯 Predict Revenue">
+            </form>
+
+            <div class="dashboard-button">
+                <a href="/dashboard">📊 View Prediction Dashboard</a>
+            </div>
+        </div>
+
+        <div class="output-container">
+            {% if prediction is defined %}
+            <div class="result-box">
+                📈 Estimated Revenue:<br><br><strong>${{ prediction }}</strong>
+            </div>
+            {% else %}
+            <div class="result-box">
+                💡 Awaiting input to predict revenue
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

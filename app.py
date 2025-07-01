@@ -51,4 +51,4 @@ def dashboard():
     return render_template("dashboard.html", labels=labels, predictions=predictions, views=views)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
